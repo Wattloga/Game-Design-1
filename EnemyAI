@@ -1,0 +1,19 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.AI;
+
+public class EnemyAI : MonoBehaviour
+{
+    public StateMachine sm;
+
+    private void Update()
+    {
+        sm.UpdateStates();
+    }
+
+    private void FixedUpdate()
+    {
+        sm.FixedUpdateStates();
+    }
+}

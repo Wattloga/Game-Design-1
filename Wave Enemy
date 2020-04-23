@@ -1,0 +1,37 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class WaveEnemy : MonoBehaviour
+{
+    private Vector3 targetLocation;
+
+    private float speed = 3f;
+
+    private float deathTimer;
+
+    private Wave_Manager manager;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        manager = FindObjectOfType<Wave_Manager>();
+        targetLocation = GameObject.FindGameObjectWithTag("Player").transform.position;
+        deathTimer = 3f;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        deathTimer -= Time.deltaTime;
+        
+        if(deathTimer <= 0f)
+        {
+            manager.EnemyDied();
+            Destroy(gameObject);
+        }
+
+        transform.position = Vector3.MoveTowards(transform.position, targetLocation, speed * Time.deltaTime);
+    }
+
+}

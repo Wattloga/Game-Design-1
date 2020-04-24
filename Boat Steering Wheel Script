@@ -1,0 +1,37 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Wheel : MonoBehaviour
+{
+    private Ship ship;
+    private GameObject player;
+
+    public Transform playerPos;
+
+    private void Start()
+    {
+        ship = GetComponentInParent<Ship>();
+        ship.enabled = false;
+    }
+
+    public void DriveShip(GameObject _player)
+    {
+        player = _player;
+        player.transform.position = playerPos.position;
+        player.transform.SetParent(playerPos);
+        player.SetActive(false);
+
+        ship.enabled = true;
+    }
+
+    public void StopShip()
+    {
+        player.SetActive(true);
+        player.transform.parent = null;
+
+        ship.enabled = false;
+
+
+    }
+}

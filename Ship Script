@@ -1,0 +1,62 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Ship : MonoBehaviour
+{
+    public List<float> sailSpeeds = new List<float>();
+    private int sailIndex = 0;
+
+    private float speed;
+    private Wheel wheel;
+
+    private void Start()
+    {
+        wheel = GetComponentInChildren<Wheel>();
+        speed = sailSpeeds[sailIndex];
+
+    }
+
+    private void Update()
+    {
+        float horizontal = Input.GetAxis("Horizontal") * speed;//turning
+        float vertical = Input.GetAxis("Vertical") * speed * Time.deltaTime;
+
+        transform.position += transform.forward * vertical;
+
+        transform.Rotate(0, horizontal, 0);
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            SetSailSpeeds(-1);
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SetSailSpeeds(1);
+        }
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            wheel.StopShip();
+        }
+    }
+
+    private void SetSailSpeeds(int _value)
+    {
+        sailIndex += _value;
+
+        if(sailIndex < 0)
+        {
+            sailIndex = sailSpeeds.Count - 1;
+        }
+
+        if(sailIndex > sailSpeeds.Count - 1)
+        {
+            sailIndex = 0;
+        }
+
+        speed = sailSpeeds[sailIndex];
+        Debug.Log("Current Speed is;" + speed.ToString());
+    }
+}

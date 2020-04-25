@@ -1,0 +1,21 @@
+using UnityEngine;
+
+public class EnemyHealth : MonoBehaviour
+{
+    public float health = 100f;
+    public float maxHealth = 75f;
+
+    public void TakeDamage (float wandDamage)
+    {
+        health -= wandDamage;
+        if(health <= 0f)
+        {
+            Die();
+        }
+    }
+    void Die()
+    {
+        Destroy(gameObject);
+    }
+
+}

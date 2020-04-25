@@ -1,0 +1,55 @@
+using UnityEngine;
+
+public class Spell : MonoBehaviour
+{
+    public GameObject spellPrefab;
+    public GameObject impactEffect;
+    public Transform wandEnd;
+    public float wandDamage = 10f;
+    public float fireRate = .25f;
+    public float weaponRange = 45f;
+    public float hitForce = 30f;
+    
+    public Camera fpsCam;
+    private WaitForSeconds shotDuration = new WaitForSeconds(.07f);
+    private LineRenderer laserLine;
+    private float nextFire;
+
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.DownArrow))
+        {
+            GameObject spellGo = Instantiate(spellPrefab, wandEnd.position, wandEnd.rotation);
+            spellGo.GetComponent<Rigidbody>().AddForce(wandEnd.forward * hitForce, ForceMode.Impulse);
+        }
+    }
+
+    void Shoot()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, weaponRange))
+        {
+            Debug.Log(hit.transform.name);
+
+            EnemyHealth enemyHealth = hit.transform.GetComponent<EnemyHealth>();
+            if(enemyHealth != null)
+            {
+                enemyHealth.TakeDamage(wandDamage);
+            }
+
+            if (hit.rigidbody != null)
+            {
+                hit.rigidbody.AddForce(-hit.normal * hitForce);
+            }
+
+            GameObject impactGo = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
+            Destroy(impactGo, 2f);
+        }
+    }
+    public class SpellType
+    {
+        internal static SpellType Ice;
+        internal static SpellType Colorchange;
+    }
+
+}

@@ -1,0 +1,30 @@
+using UnityEngine;
+
+public class EnemyHealth : MonoBehaviour
+{
+    public float health = 100f;
+    public float maxHealth = 75f;
+
+    public Collider[] attackHitboxes;
+
+    private void LaunchAttack(Collider col)
+    {
+        Collider[] cols = Physics.OverlapBox(col.bounds.center, col.bounds.extents, col.transform.rotation, LayerMask.GetMask("PlayerHitbox"));
+        foreach (Collider c in cols)
+            Debug.Log(c.name);
+    }
+
+    public void TakeDamage (float wandDamage)
+    {
+        health -= wandDamage;
+        if(health <= 0f)
+        {
+            Die();
+        }
+    }
+    void Die()
+    {
+        Destroy(gameObject);
+    }
+
+}

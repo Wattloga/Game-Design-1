@@ -1,0 +1,20 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class SpellHitBox : MonoBehaviour
+{
+    public int damage;
+    public void OnTriggerEnter(Collider other)
+    {
+        other.GetComponent<EnemyHealth>().TakeDamage(damage);
+        print(gameObject);
+        Destroy(gameObject);
+    }
+    
+
+    public enum SpellType { Ice, Blasting, Color, Protective};
+    public SpellType spellType;
+
+}

@@ -1,0 +1,14 @@
+using UnityEngine;
+
+public class KnockBack : MonoBehaviour
+{
+    public float knockBackSpeed = 3f;
+
+    public void KnockedBack(GameObject enemy)
+    {
+        Vector3 newPosition;
+        newPosition = gameObject.transform.position - enemy.transform.position;
+        //Use controller.move to move the player
+        GetComponent<CharacterController>().Move(newPosition * knockBackSpeed);
+    }
+}
